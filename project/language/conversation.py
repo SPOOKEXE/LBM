@@ -10,11 +10,11 @@ class LanguageModel:
 	def load_model( self, filepath : str ) -> bool:
 		return False
 
-	def query( self, text : str ) -> None:
+	def query( self, text : str ) -> tuple[bool, str]:
 		'''
 		Query the language model with an input and return the response.
 		'''
-		pass
+		return False, 'NotImplementedError'
 
 	def __init__( self ):
 		pass
