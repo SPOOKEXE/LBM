@@ -1,0 +1,4 @@
+flask
+py-cpuinfo
+psutil
+shutil
