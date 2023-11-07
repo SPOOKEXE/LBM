@@ -3,13 +3,12 @@ import os
 import sys
 import time
 import flask
-import traceback
 
 FILE_DIRECTORY = os.path.dirname(os.path.realpath(__file__))
 
 sys.path.append( os.path.join(FILE_DIRECTORY, "..") )
 
-from project.audio import text2audio, transcript
+from project.audio import text2audio, transcripter
 from project.data import dataset
 from project.language import conversation
 
@@ -23,7 +22,7 @@ if __name__ == '__main__':
 
 	#### MODELS ####
 	textToAudio = text2audio.Text2Audio()
-	transcripter = transcript.Transcripter()
+	transcripter = transcripter.Transcripter()
 	language = conversation.LanguageModel()
 
 	print("Starting LBM Models")
@@ -56,18 +55,26 @@ if __name__ == '__main__':
 
 	@app.route('/text2audio', methods=["POST", "GET"])
 	def text2audio_post():
+		# disallow GET
+		if flask.request.method == 'GET':
+			return {'success' : False, 'error' : 'You can only access this route with POST. View the documentation to see how to make POST rqeuests.'}
+		# check the request headers for content-type json
 		headers = dict(flask.request.headers.items())
 		if headers.get('Content-Type') != "application/json":
-			return "Content-Type is invalid", 406
+			return { "success" : False, "error" : "Content-Type is invalid"}, 406
+		# check for filepath arguments
 		args : dict = flask.request.json or {}
 		filepath = args.get('filepath')
 		if filepath == None:
 			return {"error" : "Filepath not included."}, 406
-
-		wasLoaded = textToAudio.load_model( filepath )
+		# try load the model, if it fails, return an error
+		wasLoaded, err = textToAudio.load_model( filepath )
 		if wasLoaded:
 			return {"success" : True}, 200
 		return {"success" : False, "error" : "Failed to load model." }, 200
+
+	# @app.route('/transcript', methods=['GET', 'POST'])
+	# def transcript( )
 
 	print("Starting Flask WebUI.")
 	app.run(port=LOCALHOST[1])

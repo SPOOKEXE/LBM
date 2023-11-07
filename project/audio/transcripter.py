@@ -11,11 +11,15 @@ class Transcripter:
 	def load_model( self, filepath : str ) -> bool:
 		return False
 
-	def transcribe_audiofile( self, filepath : str ) -> None: #list[tuple[int, str]]:
+	def transcribe_audio( self, audio : Any ) -> tuple[bool, str]:
+		return False, 'NotImplementedError'
+
+	def transcribe_audiofile( self, filepath : str ) -> tuple[bool, str]:
 		'''
 		Returns a list of tuples where the integer is the timestamp and the string is the word(s) at the timestamp.
 		'''
-		pass
+		# self.transcribe_audio(  )
+		return False, 'NotImplementedError'
 
 	def __init__( self ):
 		pass
