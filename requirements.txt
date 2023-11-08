@@ -1,8 +1,11 @@
+
 # CORE
 py-cpuinfo
 psutil
 
 # WebUI
-flask
 fastapi
 uvicorn
+customtkinter
+
+packaging # fixes customtkinter

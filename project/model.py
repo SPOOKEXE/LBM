@@ -65,15 +65,18 @@ class BaseModel:
 			return False, 'Could not load the target model due to an error.'
 		return True, 'The model has been loaded.'
 
-	def get_available_models( self ) -> list:
+	def get_available_models( self, fullpath : bool = True ) -> list:
 		'''
 		Get the available models in the local directory.
 		'''
 		if self.models_directory == None: return []
-		return list(filter(
-			lambda x : self.is_filepath_a_model(x),
-			os.listdir( self.models_directory )
-		))
+		available = []
+		for filename in os.listdir( self.models_directory ):
+			filepath = os.path.join( self.models_directory, filename )
+			if not self.is_filepath_a_model( filepath ):
+				continue
+			available.append( fullpath and filepath or filename )
+		return available
 
 	def __init__(self):
 		pass
