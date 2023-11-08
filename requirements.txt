@@ -1,4 +1,8 @@
-flask
+# CORE
 py-cpuinfo
 psutil
-shutil
+
+# WebUI
+flask
+fastapi
+uvicorn

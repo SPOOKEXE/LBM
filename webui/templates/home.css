@@ -1,0 +1,62 @@
+html {
+  background-color: rgb(10, 10, 30);
+}
+
+topbar {
+  font-family: serif;
+  font-size: x-large;
+  grid-area: topbar;
+  background-color: rgb(30, 30, 62);
+  list-style-type: none;
+  border-radius: 8px;
+}
+topbar li {
+  float: left;
+  width: 20%;
+  height: 100%;
+  text-align: center;
+  margin: auto;
+}
+topbar li a {
+  height: 100%;
+  display: block;
+  background-color: rgb(20, 20, 46);
+  font-family: serif;
+  font-size: x-large;
+  text-decoration: none;
+  text-align: center;
+  margin: auto;
+  color: white;
+}
+
+section {
+  background-color: rgb(10, 10, 30);
+  color: white;
+  display: grid;
+  width: 100vw;
+  height: 30vw;
+  overflow: none;
+  aspect-ratio: 1280/720;
+  grid-template-areas: "topbar topbar topbar" "head head head" "main main main" "main main main";
+  grid-template-rows: 10% 25% 65%;
+  grid-template-columns: 50px;
+  gap: 15px;
+}
+section prompt {
+  -webkit-text-size-adjust: inherit;
+     -moz-text-size-adjust: inherit;
+          text-size-adjust: inherit;
+  font-family: serif;
+  font-size: x-large;
+  border-radius: 8px;
+  grid-area: head;
+  padding: 8px;
+  background-color: rgb(20, 20, 46);
+}
+section main {
+  border-radius: 8px;
+  padding: 8px;
+  font-size: x-large;
+  grid-area: main;
+  background-color: rgb(20, 20, 46);
+}/*# sourceMappingURL=home.css.map */

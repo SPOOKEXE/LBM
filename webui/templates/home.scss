@@ -1,0 +1,80 @@
+
+$bgcoloru3: rgb(40, 40, 78);
+$bgcoloru2: rgb(30, 30, 62);
+$bgcoloru1: rgb(20, 20, 46);
+$bgcolor: rgb(10, 10, 30);
+$bgcolord1: rgb(0, 0, 4);
+$bgcolord2: rgb(0, 0, 10);
+
+$textcolor1: white;
+
+html {
+	background-color: $bgcolor;
+}
+
+topbar {
+	font-family: serif;
+	font-size: x-large;
+	grid-area: topbar;
+	background-color: $bgcoloru2;
+	list-style-type: none;
+	border-radius: 8px;
+
+	li {
+		float: left;
+		width: 20%;
+		height: 100%;
+		text-align: center;
+		margin: auto;
+		a {
+			height: 100%;
+			display: block;
+			background-color: $bgcoloru1;
+			font-family: serif;
+			font-size: x-large;
+			text-decoration: none;
+			text-align: center;
+			margin: auto;
+			color: $textcolor1;
+		}
+	}
+
+}
+
+section {
+	background-color: $bgcolor;
+	color: white;
+	display: grid;
+	width: 100vw;
+	height: 30vw;
+	overflow: none;
+	aspect-ratio: 1280/720;
+
+	grid-template-areas:
+		"topbar topbar topbar"
+		"head head head"
+		"main main main"
+		"main main main";
+	grid-template-rows: 10% 25% 65%;
+	grid-template-columns: 50px;
+	gap: 15px;
+
+	prompt {
+		text-size-adjust: inherit;
+		font-family: serif;
+		font-size: x-large;
+		border-radius: 8px;
+		grid-area: head;
+		padding: 8px;
+		background-color: $bgcoloru1;
+	}
+
+	main {
+		border-radius: 8px;
+		padding: 8px;
+		font-size: x-large;
+		grid-area: main;
+		background-color: $bgcoloru1;
+	}
+}
+

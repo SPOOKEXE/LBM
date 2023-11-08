@@ -1,83 +1,63 @@
 
 import os
 import sys
-import time
+import traceback
+import uvicorn
 import flask
+import fastapi
+
+from fastapi.middleware.wsgi import WSGIMiddleware
+from threading import Thread
+from time import sleep
 
 FILE_DIRECTORY = os.path.dirname(os.path.realpath(__file__))
 
 sys.path.append( os.path.join(FILE_DIRECTORY, "..") )
 
-from project.audio import text2audio, transcripter
+from project.audio import text2audio, transcript
 from project.data import dataset
-from project.language import conversation
+from project.language import language
 
-from util import read_sysinfo
+from methods import read_sysinfo
 
 sys.path.pop()
 
-if __name__ == '__main__':
+def construct_template( filepath : str ) -> str:
+	pass
 
-	LOCALHOST = ('127.0.0.1', 500)
+def run_webui( ):
+	txt2audio = text2audio.Text2Audio()
+	audio2text = transcript.Transcripter()
+	conversation = language.LanguageModel()
 
-	#### MODELS ####
-	textToAudio = text2audio.Text2Audio()
-	transcripter = transcripter.Transcripter()
-	language = conversation.LanguageModel()
+	webui = flask.Flask('LBM WebUI')
+	api = fastapi.FastAPI()
 
-	print("Starting LBM Models")
-	stime = time.time()
-
-	print("Models Loaded after {} seconds.".format( round(time.time() - stime, 1) ))
-	# textToAudio.load_model('filepath')
-	# transcripter.load_model('filepath')
-	# language.load_model('filepath')
-
-	#### WEB-UI ####
-	app = flask.Flask('LBM WebUI')
-
-	# Unknown Paths
-	@app.route('/', defaults={'path': ''})
-	@app.route('/<path:path>')
-	def catch_all(path : str):
-		print('Could unknown path: ', path)
-		return flask.redirect(flask.url_for('home'))
-
-	# Pages
-	@app.route('/home')
-	def home():
-		return 'Hello World!'
-
-	# APIs
-	@app.route('/sysinfo')
-	def wrapper_sysinfo():
+	#### FAST API ####
+	@api.get('/sysinfo')
+	def sysinfo():
 		return read_sysinfo( )
 
-	@app.route('/text2audio', methods=["POST", "GET"])
-	def text2audio_post():
-		# disallow GET
-		if flask.request.method == 'GET':
-			return {'success' : False, 'error' : 'You can only access this route with POST. View the documentation to see how to make POST rqeuests.'}
-		# check the request headers for content-type json
-		headers = dict(flask.request.headers.items())
-		if headers.get('Content-Type') != "application/json":
-			return { "success" : False, "error" : "Content-Type is invalid"}, 406
-		# check for filepath arguments
-		args : dict = flask.request.json or {}
-		filepath = args.get('filepath')
-		if filepath == None:
-			return {"error" : "Filepath not included."}, 406
-		# try load the model, if it fails, return an error
-		wasLoaded, err = textToAudio.load_model( filepath )
-		if wasLoaded:
-			return {"success" : True}, 200
-		return {"success" : False, "error" : "Failed to load model." }, 200
+	# @api.post('text2audio')
+	# def post_text2audio():
+	# 	return {'success' : False, 'error' : 'NotImplementedError'}
 
-	# @app.route('/transcript', methods=['GET', 'POST'])
-	# def transcript( )
+	# @api.post('audio2text')
+	# def post_audio2text():
+	# 	return {'success' : False, 'error' : 'NotImplementedError'}
 
-	print("Starting Flask WebUI.")
-	app.run(port=LOCALHOST[1])
-	print('Hosting WebUI at http://{}:{}'.format(*LOCALHOST))
+	# @api.post('conversation')
+	# def post_conversation():
+	# 	return {'success' : False, 'error' : 'NotImplementedError'}
 
-# print(traceback.format_exception(e))
+	#### WEBUI ####
+	api.mount('/', WSGIMiddleware(webui))
+	@webui.get('/')
+	def home():
+		return 'Hello!'
+
+	uvicorn.run(api, host='127.0.0.1', port=500)
+
+#### MAIN ####
+if __name__ == '__main__':
+	run_webui( )

@@ -4,6 +4,7 @@
 ## Dependencies
 
 *Essential*
+> git
 > Python 3.10.x
 
 *GPU Support*:

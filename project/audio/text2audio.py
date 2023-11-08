@@ -1,22 +1,23 @@
 from __future__ import annotations
 
 import os
+import traceback
 
 from typing import Any
+from ..queue import Queue
+from ..model import BaseModel
 
 if __name__ == '__main__':
 	print('You cannot run this script directly - it must be imported.')
 	exit()
 
-class Text2Audio:
+class Text2Audio(BaseModel):
 
-	def load_model( self, filepath : str ) -> tuple[bool, Any]:
-		'''
-		Load a model.
-		'''
-		if not os.path.exists( filepath ):
-			return False, "Model filepath does not exist."
-		return False, 'NotImplementedError'
+	def _internal_load_model(self, filepath: str) -> None:
+		return super()._internal_load_model(filepath)
+
+	def _internal_unload_model(self) -> None:
+		return super()._internal_unload_model()
 
 	def generate_audio( self, text : str ) -> tuple[bool, Any]:
 		'''
@@ -24,9 +25,7 @@ class Text2Audio:
 
 		Returns the filepath to the audio file(?)
 		'''
-		if type(text) != str:
-			err = 'Invalid Argument - got type {}, expected {}'.format(type(text), type(''))
-			return False, err
+		self.queue.join()
 		return False, 'NotImplementedError'
 
 	def __init__(self):
