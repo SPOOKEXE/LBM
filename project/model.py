@@ -11,11 +11,14 @@ class BaseModel:
 	model_extensions = ['safetensor', 'safetensors', 'chpt', 'pt']
 	queue = Queue()
 
-	def is_model_loaded( self, filepath : str ) -> bool:
+	def is_a_model_loaded( self ) -> bool:
 		'''
-		Is the model filepath loaded?
+		Is a model loaded?
 		'''
-		return (self.loaded_filepath == filepath)
+		return self.loaded_model != None
+
+	def is_filepath_loaded( self, filepath : str ) -> bool:
+		return self.loaded_filepath == filepath
 
 	def is_filepath_a_model( self, filepath : str ) -> bool:
 		ext = os.path.splitext( os.path.basename(filepath) )[1]
@@ -56,7 +59,6 @@ class BaseModel:
 		if not os.path.exists( filepath ):
 			return False, "Model filepath does not exist."
 		try:
-			# TODO: load model via additional call
 			self._internal_load_model( filepath )
 			self.loaded_filepath = filepath
 		except Exception as exception:

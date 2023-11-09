@@ -2,6 +2,8 @@
 import os
 import sys
 
+from multiprocessing import Process
+
 FILE_DIRECTORY = os.path.dirname(os.path.realpath(__file__))
 
 sys.path.append( os.path.join(FILE_DIRECTORY, "..") )
@@ -16,13 +18,7 @@ from project.language import language
 sys.path.pop()
 
 #### MAIN ####
-if __name__ == '__main__':
-	from multiprocessing import Process
-
-	txt2audio = text2audio.Text2Audio()
-	audio2text = transcript.Transcripter()
-	conversation = language.LanguageModel()
-
+def main( audio2text, txt2audio, conversation ) -> None:
 	gui.audio2text = audio2text
 	gui.txt2audio = txt2audio
 	gui.conversation = conversation
@@ -35,3 +31,18 @@ if __name__ == '__main__':
 	p2.start()
 	api.run_api()
 	p2.terminate()
+
+if __name__ == '__main__':
+	txt2audio = text2audio.Text2Audio()
+	audio2text = transcript.Transcripter()
+	conversation = language.LlamaModel()
+
+	txt2audio.load_model("ABSOLUTE_PATH")
+	#audio2text.load_model("ABSOLUTE_PATH")
+	conversation.load_model("G:\\text-audio-ai\\text-generation-webui-snapshot-2023-10-29\\models\\TheBloke_Xwin-MLewd-13B-v0.2-GPTQ\\model.safetensors")
+
+	_, sessionid = conversation.new_session()
+	_, value = conversation.session_query( sessionid, "What is your name?" )
+	_, rawaudio = txt2audio.generate_audio( value[0] )
+
+	main( txt2audio, audio2text, conversation )

@@ -3,9 +3,12 @@
 py-cpuinfo
 psutil
 
-# WebUI
+# UI/API
 fastapi
 uvicorn
 customtkinter
-
 packaging # fixes customtkinter
+
+# INFRANCING
+transformers
+llama-cpp-python
