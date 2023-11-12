@@ -1,0 +1,24 @@
+
+# CORE
+py-cpuinfo
+psutil
+
+# UI/API
+fastapi
+uvicorn
+customtkinter
+packaging # fixes customtkinter
+
+# speech2text & text2speech
+# SpeechRecognition
+# gTTS
+# PyAudio
+# pydub
+# onnxruntime
+IPython
+PySoundFile
+
+# other
+numpy
+transformers
+# llama-cpp-python

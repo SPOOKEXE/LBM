@@ -8,7 +8,7 @@ if __name__ == '__main__':
 	print('You cannot run this script directly - it must be imported.')
 	exit()
 
-class Transcripter(BaseModel):
+class Audio2Text(BaseModel):
 
 	def _internal_load_model(self, filepath: str) -> None:
 		return super()._internal_load_model(filepath)

@@ -11,7 +11,7 @@ sys.path.append( os.path.join(FILE_DIRECTORY, "..") )
 import gui
 import api
 
-from project.audio import text2audio, transcript
+from project.audio import text2audio, audio2text
 from project.data import dataset
 from project.language import language
 
@@ -34,7 +34,7 @@ def main( audio2text, txt2audio, conversation ) -> None:
 
 if __name__ == '__main__':
 	txt2audio = text2audio.Text2Audio()
-	audio2text = transcript.Transcripter()
+	audio2text = audio2text.Audio2Text()
 	conversation = language.LlamaModel()
 
 	txt2audio.load_model("ABSOLUTE_PATH")
