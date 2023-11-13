@@ -17,6 +17,8 @@ packaging # fixes customtkinter
 # onnxruntime
 IPython
 PySoundFile
+tensorflow
+librosa
 
 # other
 numpy
